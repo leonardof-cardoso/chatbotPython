@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatbot IA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-theme="obsidian">
+    <section id="auth-screen" class="screen auth-screen">
+      <div class="auth-layout">
+        <div class="auth-copy">
+          <div class="brand-row">
+            <span class="brand-badge">IA</span>
+            <div>
+              <p class="eyebrow">Chatbot IA</p>
+              <h1>Seu chat com Gemini, em um workspace mais elegante.</h1>
+            </div>
+          </div>
+
+          <p class="hero-text">
+            Entre com sua conta para acessar conversas salvas, criar novas
+            threads e usar uma interface inspirada em produtos de chat modernos.
+          </p>
+
+          <div class="hero-grid">
+            <article class="hero-card">
+              <span class="hero-kicker">Historico</span>
+              <strong>Conversas persistidas por usuario</strong>
+            </article>
+            <article class="hero-card">
+              <span class="hero-kicker">IA</span>
+              <strong>Integracao com Gemini pelo backend FastAPI</strong>
+            </article>
+            <article class="hero-card">
+              <span class="hero-kicker">Tema</span>
+              <strong>Escolha visual escuro, dourado ou claro</strong>
+            </article>
+          </div>
+        </div>
+
+        <div class="auth-panel">
+          <div class="auth-panel-header">
+            <p class="eyebrow">Acesso</p>
+            <h2 id="auth-title">Entrar</h2>
+          </div>
+
+          <form id="auth-form" class="stack">
+            <label>
+              <span>Email</span>
+              <input id="email" type="email" placeholder="voce@email.com" required />
+            </label>
+            <label>
+              <span>Senha</span>
+              <input id="password" type="password" placeholder="Minimo 6 caracteres" required />
+            </label>
+            <button id="auth-submit-btn" type="submit" class="primary-button">Entrar</button>
+          </form>
+
+          <div class="auth-switch">
+            <p id="auth-switch-copy">Ainda nao tem conta?</p>
+            <button id="auth-switch-btn" type="button" class="ghost-button">Criar conta</button>
+          </div>
+
+          <p id="auth-feedback" class="feedback"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="chat-screen" class="screen chat-screen hidden">
+      <div class="app-shell">
+        <aside class="sidebar">
+          <div class="sidebar-header">
+            <div class="brand-row">
+              <span class="brand-badge">IA</span>
+              <div>
+                <p class="eyebrow">Workspace</p>
+                <h2 class="sidebar-title">Chatbot</h2>
+              </div>
+            </div>
+            <button id="new-chat-btn" class="primary-button full-width">Nova conversa</button>
+          </div>
+
+          <section class="sidebar-card account-card">
+            <div class="card-header">
+              <h3>Sessao</h3>
+              <button id="logout-btn" class="ghost-button compact-button">Sair</button>
+            </div>
+            <p id="user-email" class="account-email"></p>
+            <small>Seu historico continua salvo nesta conta.</small>
+          </section>
+
+          <section class="sidebar-card settings-card">
+            <div class="card-header">
+              <h3>Settings</h3>
+            </div>
+            <label class="settings-field">
+              <span>Tema</span>
+              <select id="theme-select">
+                <option value="obsidian">Obsidian</option>
+                <option value="gold">Gold</option>
+                <option value="ivory">Ivory</option>
+              </select>
+            </label>
+          </section>
+
+          <section class="sidebar-card history-card">
+            <div class="card-header">
+              <h3>Historico</h3>
+            </div>
+            <div id="conversation-list" class="conversation-list"></div>
+          </section>
+        </aside>
+
+        <main class="chat-area">
+          <header class="chat-header">
+            <div>
+              <p class="eyebrow">Gemini + FastAPI + JS</p>
+              <h2 id="conversation-title">Selecione ou crie uma conversa</h2>
+            </div>
+            <span class="status-pill">Online</span>
+          </header>
+
+          <section id="messages" class="messages"></section>
+
+          <form id="message-form" class="composer">
+            <textarea
+              id="message-input"
+              rows="1"
+              placeholder="Envie uma mensagem..."
+              required
+            ></textarea>
+            <button type="submit" class="primary-button composer-button">Enviar</button>
+          </form>
+
+          <p id="chat-feedback" class="feedback"></p>
+        </main>
+      </div>
+    </section>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
