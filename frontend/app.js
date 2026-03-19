@@ -135,9 +135,12 @@ function renderConversations() {
   }
 
   state.conversations.forEach((conversation) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `conversation-item ${conversation.id === state.activeConversationId ? "active" : ""}`;
+    const item = document.createElement("div");
+    item.className = `conversation-item ${conversation.id === state.activeConversationId ? "active" : ""}`;
+
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "conversation-meta";
 
     const title = document.createElement("strong");
     title.textContent = conversation.title;
@@ -145,10 +148,27 @@ function renderConversations() {
     const timestamp = document.createElement("small");
     timestamp.textContent = new Date(conversation.updated_at).toLocaleString("pt-BR");
 
-    button.appendChild(title);
-    button.appendChild(timestamp);
-    button.addEventListener("click", () => openConversation(conversation.id));
-    elements.conversationList.appendChild(button);
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "conversation-delete";
+    deleteButton.textContent = "Excluir";
+    deleteButton.setAttribute("aria-label", `Excluir conversa ${conversation.title}`);
+    deleteButton.addEventListener("click", async (event) => {
+      event.stopPropagation();
+      try {
+        await deleteConversation(conversation.id);
+      } catch (error) {
+        setFeedback(elements.chatFeedback, error.message, true);
+      }
+    });
+
+    trigger.appendChild(title);
+    trigger.appendChild(timestamp);
+    trigger.addEventListener("click", () => openConversation(conversation.id));
+
+    item.appendChild(trigger);
+    item.appendChild(deleteButton);
+    elements.conversationList.appendChild(item);
   });
 }
 
@@ -183,6 +203,30 @@ async function createConversation() {
   renderMessages([]);
   setFeedback(elements.chatFeedback, "Nova conversa criada.");
   return true;
+}
+
+async function deleteConversation(conversationId) {
+  await request(`/conversations/${conversationId}`, {
+    method: "DELETE",
+  });
+
+  const wasActiveConversation = state.activeConversationId === conversationId;
+  if (wasActiveConversation) {
+    state.activeConversationId = null;
+  }
+
+  await loadConversations();
+
+  if (wasActiveConversation) {
+    if (state.conversations[0]) {
+      await openConversation(state.conversations[0].id);
+    } else {
+      elements.conversationTitle.textContent = "Selecione ou crie uma conversa";
+      renderMessages();
+    }
+  }
+
+  setFeedback(elements.chatFeedback, "Conversa excluida.");
 }
 
 async function refreshSession() {

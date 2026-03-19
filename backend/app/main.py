@@ -109,6 +109,24 @@ def get_conversation(
     return conversation
 
 
+@app.delete("/conversations/{conversation_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_conversation(
+    conversation_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    conversation = (
+        db.query(Conversation)
+        .filter(Conversation.id == conversation_id, Conversation.user_id == current_user.id)
+        .first()
+    )
+    if not conversation:
+        raise HTTPException(status_code=404, detail="Conversa nao encontrada.")
+
+    db.delete(conversation)
+    db.commit()
+
+
 @app.post("/conversations/{conversation_id}/messages", response_model=ChatReply)
 async def send_message(
     conversation_id: int,

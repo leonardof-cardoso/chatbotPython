@@ -350,7 +350,8 @@ select:focus {
 
 .conversation-item {
   display: grid;
-  gap: 6px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
   width: 100%;
   text-align: left;
   padding: 14px;
@@ -365,8 +366,38 @@ select:focus {
   background: color-mix(in srgb, var(--accent) 10%, var(--bg-soft));
 }
 
+.conversation-meta {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  text-align: left;
+  padding: 0;
+}
+
 .conversation-item small {
   color: var(--muted);
+}
+
+.conversation-delete {
+  align-self: start;
+  min-width: 74px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, #d9534f 12%, var(--bg-soft));
+  color: #ffb4a5;
+  border: 1px solid color-mix(in srgb, #d9534f 35%, var(--border));
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.conversation-delete:hover {
+  color: #ffe2d9;
+  border-color: color-mix(in srgb, #d9534f 55%, var(--border));
+  background: color-mix(in srgb, #d9534f 18%, var(--bg-soft));
 }
 
 .chat-area {
