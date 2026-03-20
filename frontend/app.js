@@ -372,6 +372,12 @@ elements.themeSelect.addEventListener("change", (event) => {
 });
 
 elements.messageForm.addEventListener("submit", sendMessage);
+elements.messageInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    elements.messageForm.requestSubmit();
+  }
+});
 elements.messageInput.addEventListener("input", () => {
   elements.messageInput.style.height = "auto";
   elements.messageInput.style.height = `${elements.messageInput.scrollHeight}px`;

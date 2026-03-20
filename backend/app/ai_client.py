@@ -72,6 +72,19 @@ async def generate_ai_reply(messages: Iterable[Message]) -> str:
             response.raise_for_status()
             data = response.json()
         return _extract_text(data)
+    except httpx.HTTPStatusError as exc:
+        detail = ""
+        try:
+            data = exc.response.json()
+            error = data.get("error") or {}
+            detail = error.get("message") or ""
+        except ValueError:
+            detail = exc.response.text
+
+        if detail:
+            return f"Erro Gemini ({exc.response.status_code}): {detail}"
+
+        return f"Erro Gemini ({exc.response.status_code})."
     except httpx.HTTPError:
         return (
             "Nao consegui falar com a API do Gemini agora. "

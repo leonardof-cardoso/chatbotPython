@@ -35,9 +35,20 @@ API disponivel em `http://127.0.0.1:8000`.
 
 ### 2. Frontend
 
-Abra `frontend/index.html` com uma extensao como Live Server, ou sirva a pasta com qualquer servidor estatico.
+Abra `frontend/index.html` no navegador. O frontend conversa com a API em `http://127.0.0.1:8000`.
 
-O frontend espera a API em `http://127.0.0.1:8000`.
+### Rodar tudo com um terminal
+
+Se a virtualenv do backend ja estiver criada, voce pode subir backend e frontend juntos a partir da raiz do projeto:
+
+```powershell
+.\start.ps1
+```
+
+Isso inicia o backend e abre o frontend automaticamente no navegador:
+
+- frontend em `frontend/index.html`
+- backend em `http://127.0.0.1:8000`
 
 ## Variaveis de ambiente
 
